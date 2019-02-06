@@ -3,10 +3,8 @@ import myMap from '../components/myMap'
 export default {
   async install(Vue, opts) {
     let apiKey = '4720f041-472e-48bb-b35c-f29ae43f4651',
-        city = 'Москва',
         url1 = `https://geocode-maps.yandex.ru/1.x/`,
-        url2 = 'https://api-maps.yandex.ru/2.1/?apikey=4720f041-472e-48bb-b35c-f29ae43f4651&lang=ru_RU',
-        url3 = 'https://api-maps.yandex.ru/services/route/2.0/';
+        url2 = 'https://api-maps.yandex.ru/2.1/?apikey=4720f041-472e-48bb-b35c-f29ae43f4651&lang=ru_RU';
     let mapGlogal = await axios.get(`${url2}`, {
       params:{
         apikey: apiKey,
@@ -15,31 +13,35 @@ export default {
     });
 
     // point position
-    Vue.prototype.$error = '';
-    Vue.prototype.$helpers = {
+    Vue.prototype.$methods = {
       async getDist(city){
-          try{
-            let cityPos = '';
-            let map = await axios.get(`${url1}`, {params:{
-                geocode: city,
-                apikey: apiKey,
-                format: 'json'
-              }
-            });
-            cityPos = map.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ');
-            cityPos.reverse();
-            let result = []
-            for(let item of cityPos) {
-              result.push(Number(item))
+        try {
+          let cityPos = '',
+              map = await axios.get(`${url1}`, {params:{
+              geocode: city,
+              apikey: apiKey,
+              format: 'json'
             }
-            return result;
-
-          }catch(e) {
-            console.log('error: ',e);
-            Vue.prototype.$error = e;
+          });
+          cityPos = map.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ').reverse();
+          let result = []
+          for(let item of cityPos) {
+            result.push(Number(item))
+          }
+          return result;
+        } catch(error) {
+          if(!error.response) {
+            throw error = {
+              status: 200,
+              message: 'no result'
+            };
+          } else {
+            throw error.response.data.error;
           }
         }
       }
+
+    }
 
     let fn = new Function(mapGlogal.data);
     fn()

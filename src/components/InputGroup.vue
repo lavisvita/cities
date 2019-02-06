@@ -14,11 +14,16 @@
     </div>
     <div>
       <ul>
-        {{info}}
-        <li v-for="prop in info" v-bind:key="prop.time.id">
-          <span>{{prop.time}}</span>
-          <span>{{prop.cities[0]}} - {{prop.cities[1]}} = </span>
-          <span v-html="prop.distance"></span> <span v-if='prop.error' style="color: red">{{error}}</span>
+        <li v-for="prop in info" v-bind:key="prop.id">
+          <div v-if="prop.error" style="color: red">
+            <span>{{prop.error.status}} </span>
+            <span>{{prop.error.message}}</span>
+          </div>
+          <div v-else>
+            <span>{{prop.time}}</span>
+            <span>{{prop.cities[0]}} - {{prop.cities[1]}} = </span>
+            <span v-html="prop.distance"></span>
+          </div>
         </li>
       </ul>
     </div>

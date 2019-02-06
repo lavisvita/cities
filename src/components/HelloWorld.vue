@@ -35,11 +35,10 @@ export default {
         const date = moment().format('MM/DD в hh:mm');
         let result = [];
         for(let item of cities) {
-          let pos = await this.$helpers.getDist(item)
+          let pos = await this.$methods.getDist(item)
           result.push(pos)
         }
         let dis = await window.ymaps.route(result, {mapStateAutoApply: false});
-        console.log(dis);
         if(dis) {
           this.$children[ind].buttonBlock = false
           this.$children[ind].info.push({
@@ -48,14 +47,15 @@ export default {
             distance: dis.getHumanLength()
           });
         }
-        if( this.$error ) {
-          this.$children[ind].info.push({
-            error: this.error
-          });
-        }
 
-      } catch(e){
-
+      } catch(error){
+        this.$children[ind].info.push({
+          error: {
+            status: error.status,
+            message: error.message
+          }
+        });
+        this.$children[ind].buttonBlock = false
       }
 
     },
