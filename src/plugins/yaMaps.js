@@ -16,14 +16,20 @@ export default {
       async getDist(city){
         try {
           let cityPos = '',
-              map = await axios.get(`${url1}`, {params:{
+          map = await axios.get(`${url1}`, {
+            params: {
               geocode: city,
               apikey: apiKey,
               format: 'json'
             }
           });
+          /**
+           * TODO не срабатывает метод geoObjects.get(0)
+           * приходится топорным методом добираться до координат
+           * */
           cityPos = map.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ').reverse();
-          let result = []
+
+          let result = [];
           for(let item of cityPos) {
             result.push(Number(item))
           }
@@ -39,8 +45,7 @@ export default {
           }
         }
       }
-
-    }
+    };
 
     let fn = new Function(mapGlogal.data);
     fn()

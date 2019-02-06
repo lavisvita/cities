@@ -49,6 +49,9 @@ export default {
           let pos = await this.$methods.getDist(item);
           result.push(pos)
         }
+        /**
+         * TODO window
+         * */
         let dis = await window.ymaps.route(result, {mapStateAutoApply: false});
         if(dis) {
           this.fieldsGroup[ind].buttonBlock = false;
@@ -102,6 +105,7 @@ export default {
     grid-area: main-components
   .input-group
       grid-area: input-group
+      margin-bottom: 30px
 
   .btn--add-Fields
     border: none

@@ -11,7 +11,7 @@
                   class="btn-clear"
                   :disabled='item.buttonBlock'>Очистить</button>
           <button @click="onDelete(index)"
-                  class="btn-clear"
+                  class="btn-delete"
                   :disabled='item.buttonBlock'>Удалить</button>
         </div>
       </div>
@@ -46,9 +46,7 @@
     data() {
       return {
         cityOne: '',
-        cityTwo: '',
-        buttonBlock: false,
-        info: []
+        cityTwo: ''
       }
     },
     methods: {
@@ -78,7 +76,7 @@
       margin-bottom: 10px
       list-style: none
 
-  .btn-go, .btn-clear
+  .btn-go, .btn-clear, .btn-delete
     border: none
     background: #02832b
     color: #fff
@@ -95,6 +93,10 @@
     background: #cb7535
     &:hover
       background: #e88a3e
+  .btn-delete
+    background: #cb280f
+    &:hover
+      background: #ff4707
   button
     outline: none
   button[disabled]
@@ -116,7 +118,7 @@
 
   .btn-group
     grid-area: btn-group
-  /*@media all and (min-width: 768px) and (max-width: 1200px)*/
+
   @media all and (max-width: 767px)
     input
       margin: 5px 0
