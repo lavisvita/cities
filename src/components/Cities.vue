@@ -16,15 +16,13 @@
 </template>
 
 <script>
-import yaMaps from '../plugins/yaMaps'
 import inputGroup from './InputGroup'
 import moment from 'moment'
 
 export default {
   name: 'cities',
   components: {
-    inputGroup,
-    yaMaps
+    inputGroup
   },
   data () {
     return {
@@ -44,15 +42,15 @@ export default {
       try{
         this.fieldsGroup[ind].buttonBlock = true;
         const date = moment().format('MM/DD в hh:mm');
-        let result = [];
+        let citiesList = [];
         for(let item of cities) {
           let pos = await this.$methods.getDist(item);
-          result.push(pos)
+          citiesList.push(pos)
         }
         /**
          * TODO window
          * */
-        let dis = await window.ymaps.route(result, {mapStateAutoApply: false});
+        let dis = await window.ymaps.route(citiesList, {mapStateAutoApply: false});
         if(dis) {
           this.fieldsGroup[ind].buttonBlock = false;
           this.fieldsGroup[ind].info.push({
