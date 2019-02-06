@@ -1,5 +1,4 @@
 import axios from 'axios'
-import myMap from '../components/myMap'
 export default {
   async install(Vue, opts) {
     let apiKey = '4720f041-472e-48bb-b35c-f29ae43f4651',
