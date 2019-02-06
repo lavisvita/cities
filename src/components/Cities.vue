@@ -4,10 +4,12 @@
     <div class="container">
       <span @click="addFieldsGroup()" class="btn--add-Fields">+</span>
       <div class="main-components">
-        <input-group :item="item" v-for="item in fieldsGroup"
-                     v-bind:key="item.id"
+        <input-group :item="item" :index="index" v-for="(item, index) in fieldsGroup"
+                     v-bind:key="index"
                      @show-distance="getDistance" class="input-group"
-                     @delete-group="deleteGroup"/>
+                     @delete-group="deleteGroup"
+                     v-model="fieldsGroup"
+        />
       </div>
     </div>
   </div>
@@ -32,50 +34,54 @@ export default {
   },
   beforeMount(){
     this.fieldsGroup.push({
+      buttonBlock: false,
+      info: [],
       id:this.id++
     })
   },
   methods: {
     async getDistance(ind, cities) {
       try{
-        this.$children[ind].buttonBlock = true;
+        this.fieldsGroup[ind].buttonBlock = true;
         const date = moment().format('MM/DD в hh:mm');
         let result = [];
         for(let item of cities) {
-          let pos = await this.$methods.getDist(item)
+          let pos = await this.$methods.getDist(item);
           result.push(pos)
         }
         let dis = await window.ymaps.route(result, {mapStateAutoApply: false});
         if(dis) {
-          this.$children[ind].buttonBlock = false
-          this.$children[ind].info.push({
+          this.fieldsGroup[ind].buttonBlock = false;
+          this.fieldsGroup[ind].info.push({
             cities: cities,
             time: date,
             distance: dis.getHumanLength()
-          });
+          })
         }
-
       } catch(error){
         const date = moment().format('MM/DD в hh:mm');
-        this.$children[ind].info.push({
+
+        this.fieldsGroup[ind].info.push({
           error: {
             time: date,
             status: error.status,
             message: error.message
           }
-        });
-        this.$children[ind].buttonBlock = false
+        })
+        this.fieldsGroup[ind].buttonBlock = false;
       }
     },
     addFieldsGroup() {
-      if(this.id < 10) {
+      if(this.$children.length < 10) {
         this.fieldsGroup.push({
+            buttonBlock: false,
+            info: [],
             id:this.id++
         })
       }
     },
-    deleteGroup(index){
-      this.fieldsGroup.splice(index, 1);
+    deleteGroup(ind){
+      this.fieldsGroup.splice(ind, 1);
     }
   },
 

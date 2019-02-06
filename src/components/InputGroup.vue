@@ -1,25 +1,25 @@
 <template>
   <section>
-    <div v-for="prop in item" v-bind:key="prop.id">
       <div class="container">
         <div class="inputs">
           <input type="text" v-model="cityOne" placeholder="Пункт А">
           <input type="text" v-model="cityTwo" placeholder="Пункт Б">
-          <button @click="onCompute(prop, [cityOne, cityTwo])"
+          <button @click="onCompute(index, [cityOne, cityTwo])"
                   class="btn-go"
-                  :disabled='buttonBlock' >Рассчитать</button>
+                  :disabled='item.buttonBlock' >Рассчитать</button>
           <button @click="clearFields()"
                   class="btn-clear"
-                  :disabled='buttonBlock'>Очистить</button>
-          <button @click="onDelete(prop)"
+                  :disabled='item.buttonBlock'>Очистить</button>
+          <button @click="onDelete(index)"
                   class="btn-clear"
-                  :disabled='buttonBlock'>Удалить</button>
+                  :disabled='item.buttonBlock'>Удалить</button>
         </div>
       </div>
-    </div>
+
     <div class="info">
       <ul>
-        <li v-for="prop in info" v-bind:key="prop.id">
+        <li v-for="prop in item.info" v-bind:key="prop.id">
+
           <div v-if="prop.error" class="warning">
             <span>{{prop.error.time}} </span>
             <span>Status: {{prop.error.status}} </span>
@@ -40,7 +40,8 @@
   export default {
     name: 'inputGroup',
     props:{
-      item: ''
+      item: '',
+      index: ''
     },
     data() {
       return {
@@ -56,7 +57,7 @@
         this.cityTwo = '';
       },
       onCompute(index, arr) {
-        this.$emit('show-distance', index ,arr)
+        this.$emit('show-distance', index ,arr);
       },
       onDelete(index) {
         this.$emit('delete-group', index)
@@ -66,8 +67,6 @@
 </script>
 
 <style lang="sass" scoped>
-  .info
-    text-align: center
   .warning
     color: darkred
   .success
