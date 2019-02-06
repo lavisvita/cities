@@ -73,7 +73,7 @@ export default {
       }
     },
     addFieldsGroup() {
-      if(this.$children.length < 10) {
+      if(this.fieldsGroup.length < 10) {
         this.fieldsGroup.push({
             buttonBlock: false,
             info: [],

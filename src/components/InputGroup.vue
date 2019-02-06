@@ -15,11 +15,9 @@
                   :disabled='item.buttonBlock'>Удалить</button>
         </div>
       </div>
-
-    <div class="info">
+    <div>
       <ul>
         <li v-for="prop in item.info" v-bind:key="prop.id">
-
           <div v-if="prop.error" class="warning">
             <span>{{prop.error.time}} </span>
             <span>Status: {{prop.error.status}} </span>
