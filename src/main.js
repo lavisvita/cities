@@ -3,11 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import yaMaps from './plugins/yaMaps'
+import vueCustomElement from 'vue-custom-element'
+import BtnSave from './components/Widgets/BtnSave'
 
-Vue.config.productionTip = false
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue);
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.use(yaMaps)
+Vue.use(vueCustomElement);
+Vue.config.productionTip = false;
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -15,3 +21,4 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+Vue.customElement('btn-save', BtnSave);
